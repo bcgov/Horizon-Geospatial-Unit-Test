@@ -5,9 +5,9 @@ import logging
 from dotenv import load_dotenv
 import os
 import time 
-import csv
 import getpass
 import datetime
+import shutil 
 
 # import the timing utilities you added to your project
 from timing_utils_jsonl import timeit, Timer, set_run_context
@@ -30,6 +30,8 @@ BCGW_USERNAME = os.getenv('BCGW_USERNAME')
 BCGW_PASSWORD = os.getenv('BCGW_PASSWORD')
 W_DRIVE = os.getenv('W_DRIVE_TEST_LOC')
 O_PATH = os.getenv('O_PATH')
+MOVE_GDB= os.getend('MOVE_GDB')
+MOVE_LAS_FILE= os.getend('MOVE_LAS_FILE')
 logger.info("load env file")
 
 _run_id = f"manual-{getpass.getuser()}-{datetime.datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}"
@@ -45,6 +47,8 @@ class basic_tests:
         self.bcgw_password = BCGW_PASSWORD
         self.w_drive = W_DRIVE
         self.o_path = O_PATH
+        self.las= MOVE_LAS_FILE
+        self.test_gdb = MOVE_GDB
         self.w_test_path = os.path.join(self.w_drive, "unit_test_folder")
         self.user=os.getlogin()
 
@@ -87,6 +91,16 @@ class basic_tests:
                         In the Land of Mordor where the Shadows lie."''')
         stop = time.perf_counter()
         logger.info("Created test text file in %.4f seconds", stop - start)
+
+    @timeit(jsonl_path=TIMING_JSONL)
+    def move_gdb(self):
+        gdb_out=os.path.join(self.w_test_path,'source_data','unit_testing.gdb')
+        shutil.copyfile(self.test_gdb,gdb_out)
+
+    @timeit(jsonl_path=TIMING_JSONL)
+    def move_las(self):
+        las_out=os.path.join(self.w_test_path,'source_data','bc_102i080_3_4_4_xyes_8_utm9_20240316_20240316.laz')
+        shutil.copyfile(self.las,las_out)
     
 
     
