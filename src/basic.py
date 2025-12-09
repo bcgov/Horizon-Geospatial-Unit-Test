@@ -30,8 +30,8 @@ BCGW_USERNAME = os.getenv('BCGW_USERNAME')
 BCGW_PASSWORD = os.getenv('BCGW_PASSWORD')
 W_DRIVE = os.getenv('W_DRIVE_TEST_LOC')
 O_PATH = os.getenv('O_PATH')
-MOVE_GDB= os.getend('MOVE_GDB')
-MOVE_LAS_FILE= os.getend('MOVE_LAS_FILE')
+MOVE_GDB= os.getenv('MOVE_GDB')
+MOVE_LAS_FILE= os.getenv('MOVE_LAS_FILE')
 logger.info("load env file")
 
 _run_id = f"manual-{getpass.getuser()}-{datetime.datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}"
@@ -95,7 +95,7 @@ class basic_tests:
     @timeit(jsonl_path=TIMING_JSONL)
     def move_gdb(self):
         gdb_out=os.path.join(self.w_test_path,'source_data','unit_testing.gdb')
-        shutil.copyfile(self.test_gdb,gdb_out)
+        shutil.copytree(self.test_gdb,gdb_out)
 
     @timeit(jsonl_path=TIMING_JSONL)
     def move_las(self):
@@ -108,4 +108,6 @@ if __name__ == "__main__":
     bt = basic_tests()
     bt.create_structure()
     bt.create_txt()
+    bt.move_gdb()
+    bt.move_las()
     logger.info("Timings written to %s", TIMING_JSONL)
