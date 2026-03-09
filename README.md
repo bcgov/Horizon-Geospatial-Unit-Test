@@ -43,3 +43,6 @@ This progression keeps the test suite fast and focused while increasing confiden
 - Run the test suite locally before opening PRs.
 - updated documentation if necessary.
 - PRs must pass automated tests that pass locally and in CI.
+
+# End Goal
+- to be able to run git, and github from the new VDI
